@@ -4,7 +4,7 @@ My wonderful python chess game
 This is a complete Chess game written in Python. It strictly follow the Chess rules and have features:
 
 -Regular moves and captures of Pawn, Bishop, Rook, Night, Queen and King.
--Special moves like En Passant, Castling and Pawn promotion.
+-Special moves like Castling and Pawn promotion.
 -Disallow illegal moves that give away the king
 -Features like impossible checkmate and stalemate are given.
 -Keep chess records and allow undo steps.

@@ -8,6 +8,8 @@ MAX_FPS = 15
 IMAGES = {}
 
 # global dict of images
+
+
 def loadImages():
     pieces = ["wp", "wR", "wN", "wB", "wQ",
               "wK", "bp", "bR", "bN", "bB", "bQ", "bK"]
@@ -16,39 +18,42 @@ def loadImages():
             "images/"+piece+".png"), (SQ_SIZE, SQ_SIZE))
 
 # main driver
+
+
 def main():
     p.init()
     screen = p.display.set_mode((WIDTH, HEIGHT))
-    clock = p.time.Clock()
+
     screen.fill(p.Color("white"))
     gs = ChessEngine.GameState()
-    validMoves=gs.getValidMoves()
-    moveMade= False
+    validMoves = gs.getValidMoves()
+    moveMade = False
     loadImages()
     running = True
-    sqSelected=()
-    playerClicks=[]
+    sqSelected = ()
+    playerClicks = []
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
-            elif e.type==p.MOUSEBUTTONDOWN:
-                location=p.mouse.get_pos()
-                col=location[0]//SQ_SIZE
-                row=location[1]//SQ_SIZE
-                if sqSelected== (row,col):
-                    sqSelected=()
-                    playerClicks=[]
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos()
+                col = location[0]//SQ_SIZE
+                row = location[1]//SQ_SIZE
+                if sqSelected == (row, col):
+                    sqSelected = ()
+                    playerClicks = []
                 else:
-                    sqSelected=(row,col)
+                    sqSelected = (row, col)
                     playerClicks.append(sqSelected)
-                if len(playerClicks)==2:
-                    move= ChessEngine.Move(playerClicks[0], playerClicks[1], gs.board)
+                if len(playerClicks) == 2:
+                    move = ChessEngine.Move(
+                        playerClicks[0], playerClicks[1], gs.board)
                     print(move.getChessNotation())
                     for i in range(len(validMoves)):
                         if move == validMoves[i]:
                             gs.makeMove(move)
-                            moveMade=True
+                            moveMade = True
                             sqSelected = ()
                             playerClicks = []
                         if not moveMade:
@@ -63,10 +68,7 @@ def main():
             validMoves = gs.getValidMoves()
             moveMade = False
 
-
-
         drawGameState(screen, gs)
-        clock.tick(MAX_FPS)
         p.display.flip()
 
 
@@ -80,14 +82,17 @@ def drawBoard(screen):
     for r in range(DIMENSION):
         for c in range(DIMENSION):
             color = colors[((r+c) % 2)]
-            p.draw.rect(screen,color, p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+            p.draw.rect(screen, color, p.Rect(
+                c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+
 
 def drawPieces(screen, board):
     for r in range(DIMENSION):
         for c in range(DIMENSION):
-            piece=board[r][c]
+            piece = board[r][c]
             if piece != "--":
-                screen.blit(IMAGES[piece], p.Rect(c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
+                screen.blit(IMAGES[piece], p.Rect(
+                    c*SQ_SIZE, r*SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
 
 if __name__ == "__main__":
